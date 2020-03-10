@@ -35,6 +35,19 @@ function doubleChar(s) {
 doubleL = inventors.filter(doubleChar)
 console.log(doubleL)
 
+//2nd way for the above example
+inventors.filter((name) => {
+    let splitName = name.split('');
+    let isDuplicate = false;
+    splitName.map((_, i) => {
+        if (splitName[i] === splitName[i + 1]) {
+            isDuplicate = true
+        }
+        return isDuplicate
+    })
+    return isDuplicate
+})
+
 // Print out an array of the numbers which are odd.
 odd = numbers.filter((num) => num % 2 == 1)
 console.log("Odd numbers", odd)
@@ -137,7 +150,13 @@ console.log(namelength)
 
 
 // Sort all the inventors by length of name, longest name first. Do not use the reverse method.
-let namelength = inventors.sort(function (a, b) {
+inventors.sort((a, b) => {
+    let lengthA = a.length;
+    let lengthB = b.length;
+    return lengthB - lengthA
+})
+
+let totalLength = inventors.sort(function (a, b) {
     if (a.length > b.length) {
         return -1;
     }
@@ -146,8 +165,7 @@ let namelength = inventors.sort(function (a, b) {
     }
     return 0;
 });
-console.log(namelength)
-
+console.log(totalLength)
 // Reduce
 
 // Find the sum of all the numbers.
@@ -177,44 +195,81 @@ function b() {
             result += e
         } return result
     })
-    console.log(b())
+}
+console.log(b())
 
 
-    // Create a string that has the first name of every inventor.
-    function firstName(char) {
-        for (i = 0; i < char.length; i++) {
-            if (char[i] === ' ') {
-                return char.slice(0, i)
-            }
+// Create a string that has the first name of every inventor.
+function firstName(char) {
+    for (i = 0; i < char.length; i++) {
+        if (char[i] === ' ') {
+            return char.slice(0, i)
         }
-        return "No space to found"
     }
-    let name = inventors.map(firstName);
-    let nameString = [name]
-    console.log(nameString)
+    return "No space to found"
+}
+let name = inventors.map(firstName);
+let nameString = [name]
+console.log(nameString)
 
-    // Some & Every
-    // Does any inventor have the letter 'y' in their name?
-    function nameY() {
-        letterY = inventors.filter((nameY) => nameY.includes('y'))
-    }
-    nameY = inventors.some(nameY)
-    console.log(nameY)
+//Print out first name in a string
+inventors.reduce((total, name) => {
+    let firstName = name.split(' ', 1)
+    total += firstName
+    return total
+}, '')
 
-    // Does every inventor have the letter 'e' in their name?
-    function nameE() {
-        letterE = inventors.filter((nameE) => nameE.includes('e'))
-    }
-    nameE = inventors.every(nameE)
+// Some & Every
+// Does any inventor have the letter 'y' in their name?
+function nameY() {
+    letterY = inventors.filter((nameY) => nameY.includes('y'))
+}
+nameY = inventors.some(nameY)
+console.log(nameY)
 
-    // Does every inventor have first name that's longer than 4 characters?
-    function name4(char) {
-        for (i = 0; i < char.length; i++) {
-            if (char[i] === ' ') {
-                if ([i] <= 3)
-                    return
-            }
+// Does every inventor have the letter 'e' in their name?
+function nameE() {
+    letterE = inventors.filter((nameE) => nameE.includes('e'))
+}
+nameE = inventors.every(nameE)
+
+// Does every inventor have first name that's longer than 4 characters?
+function name4(char) {
+    for (i = 0; i < char.length; i++) {
+        if (char[i] === ' ') {
+            if ([i] <= 3)
+                return
         }
-        return "No space to found"
     }
-    longname = inventors.every(name4)
+    return "No space to found"
+}
+longname = inventors.every(name4)
+
+// Find & FindIndex
+
+// Find the inventor that has a middle name. 2 ways...
+dot = inventors.filter((name) => name.includes('.'))
+console.log(dot)
+
+let findmid = []
+findmid = inventors.find((name) => name.split(" ").length > 2);
+console.log("Result of middle name:", findmid);
+
+// Bonus: Return a new array, that only has inventors without a middle name. (Hint: think about splice, if you use findIndex. But you may also use another of the methods you've learned about above.)
+let nomid = []
+nomid = inventors.findIndex((name) => name.split(" ").length > 2);
+inventors.splice(nomid, 1);
+console.log("Inventors with no middle name:", nomid, inventors);
+
+// Find the number divisible by 7.
+let div7 = []
+div7 = numbers.find((number) => number % 7 == 0);
+console.log("Numbers divisible by 7:", div7);
+
+// Bonus: Return a new array, that only has the numbers that are not divisible by 7.
+
+let ndiv7 = []
+ndiv7 = numbers.findIndex((number) => number % 7 == 0);
+numbers.splice(ndiv7, 1)
+console.log("Numbers that are not divisible by 7:", numbers);
+
